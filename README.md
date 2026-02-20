@@ -17,7 +17,8 @@ Next.js frontend for the MiWebCafe system.
 1. Start the backend API (ASP.NET Core) on:
    - https://localhost:7107
 2. Start the frontend:
-```bash
+
 npm install
 npm run dev
 
+This repository deploys only the frontend. The backend API is not deployed and must be running locally for full functionality.
