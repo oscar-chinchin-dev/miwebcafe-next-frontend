@@ -3,8 +3,9 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import RequireAuth from "../../components/RequireAuth";
+import { api } from "../../lib/api";
 
-const API_BASE = "https://localhost:7107";
+// const API_BASE = "https://localhost:7107"; // ya no se usa
 
 type VentaDetalle = {
     ventaId: number;
@@ -35,7 +36,7 @@ export default function VentaDetallePage() {
             setError(null);
 
             try {
-                const res = await fetch(`${API_BASE}/api/ventas/${id}`, {
+                const res = await fetch(api(`/api/ventas/${id}`), {
                     headers: { Authorization: `Bearer ${token()}` },
                 });
 

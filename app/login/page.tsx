@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { api } from "../lib/api";
 
 export default function LoginPage() {
     const router = useRouter();
@@ -17,24 +18,18 @@ export default function LoginPage() {
         setLoading(true);
 
         try {
-            const response = await fetch("https://localhost:7107/api/auth/login", {
+            const response = await fetch(api("/api/auth/login"), {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ email, password }),
             });
 
             if (!response.ok) {
-                // opcional: leer mensaje si tu API lo devuelve
                 setError("Email o contraseña incorrectos.");
                 return;
             }
 
             const data = await response.json();
-
-            localStorage.setItem("token", data.token);
-            localStorage.setItem("nombre", data.nombre);
-            localStorage.setItem("rol", data.rol);
-
 
             const token = data.token;
 
@@ -44,10 +39,15 @@ export default function LoginPage() {
             }
 
             localStorage.setItem("token", token);
+            localStorage.setItem("nombre", data.nombre);
+            localStorage.setItem("rol", data.rol);
 
             router.push("/"); // o /dashboard
-        } catch {
-            setError("No se pudo conectar al servidor (¿API encendida? ¿certificado HTTPS?).");
+        } catch (err) {
+            console.log(err);
+            setError(
+                "No se pudo conectar al servidor (¿NEXT_PUBLIC_API_URL configurada? ¿API encendida?)."
+            );
         } finally {
             setLoading(false);
         }
@@ -57,7 +57,10 @@ export default function LoginPage() {
         <main style={{ padding: 24 }}>
             <h1>Login</h1>
 
-            <form onSubmit={handleSubmit} style={{ display: "grid", gap: 12, maxWidth: 320 }}>
+            <form
+                onSubmit={handleSubmit}
+                style={{ display: "grid", gap: 12, maxWidth: 320 }}
+            >
                 <input
                     placeholder="Email"
                     value={email}
@@ -80,4 +83,3 @@ export default function LoginPage() {
         </main>
     );
 }
-

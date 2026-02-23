@@ -3,8 +3,9 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import RequireAuth from "../components/RequireAuth";
+import { api } from "../lib/api";
 
-const API_BASE = "https://localhost:7107";
+// const API_BASE = "https://localhost:7107"; // ya no se usa
 
 type VentaItem = {
     ventaId: number;
@@ -26,7 +27,7 @@ export default function VentasAdminPage() {
             setError(null);
 
             try {
-                const res = await fetch(`${API_BASE}/api/ventas`, {
+                const res = await fetch(api("/api/ventas"), {
                     headers: { Authorization: `Bearer ${token()}` },
                 });
 
@@ -61,9 +62,7 @@ export default function VentasAdminPage() {
                         <ul style={{ margin: 0, paddingLeft: 18 }}>
                             {ventas.map((v) => (
                                 <li key={v.ventaId} style={{ marginBottom: 6 }}>
-                                    <Link href={`/ventas/${v.ventaId}`}>
-                                        Venta #{v.ventaId}
-                                    </Link>{" "}
+                                    <Link href={`/ventas/${v.ventaId}`}>Venta #{v.ventaId}</Link>{" "}
                                     — {v.fecha} — Total: <b>{v.total}</b> — Cajero: <b>{v.cajero}</b>
                                 </li>
                             ))}

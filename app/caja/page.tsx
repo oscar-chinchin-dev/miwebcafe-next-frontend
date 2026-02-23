@@ -2,8 +2,9 @@
 
 import { useEffect, useState } from "react";
 import RequireAuth from "../components/RequireAuth";
+import { api } from "../lib/api";
 
-const API_BASE = "https://localhost:7107";
+
 
 type CajaActual = {
     cierreCajaId: number;
@@ -34,7 +35,7 @@ export default function CajaPage() {
         setMsg(null);
 
         try {
-            const res = await fetch(`${API_BASE}/api/caja/actual`, {
+            const res = await fetch(api("/api/caja/actual"), {
                 headers: { Authorization: `Bearer ${getToken()}` },
             });
 
@@ -69,7 +70,7 @@ export default function CajaPage() {
         setMsg(null);
 
         try {
-            const res = await fetch(`${API_BASE}/api/caja/abrir`, {
+            const res = await fetch(api("/api/caja/abrir"), {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -105,17 +106,14 @@ export default function CajaPage() {
         setMsg(null);
 
         try {
-            const res = await fetch(
-                `${API_BASE}/api/caja/${caja.cierreCajaId}/cerrar`,
-                {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        Authorization: `Bearer ${getToken()}`,
-                    },
-                    body: JSON.stringify({ montoFinalDeclarado }),
-                }
-            );
+            const res = await fetch(api(`/api/caja/${caja.cierreCajaId}/cerrar`), {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${getToken()}`,
+                },
+                body: JSON.stringify({ montoFinalDeclarado }),
+            });
 
             if (!res.ok) {
                 const txt = await res.text().catch(() => "");
@@ -144,29 +142,51 @@ export default function CajaPage() {
             <main style={{ padding: 24, display: "grid", gap: 12, maxWidth: 640 }}>
                 <h1>Caja</h1>
 
-                <button onClick={cargarCajaActual} disabled={loading} style={{ width: 170 }}>
+                <button
+                    onClick={cargarCajaActual}
+                    disabled={loading}
+                    style={{ width: 170 }}
+                >
                     Actualizar
                 </button>
 
                 {error && <p style={{ color: "tomato" }}>{error}</p>}
                 {msg && <p style={{ color: "lightgreen" }}>{msg}</p>}
 
-                <section style={{ border: "1px solid #333", borderRadius: 10, padding: 12 }}>
+                <section
+                    style={{ border: "1px solid #333", borderRadius: 10, padding: 12 }}
+                >
                     <h3>Estado actual</h3>
 
                     {!caja ? (
                         <p>No tienes una caja ABIERTA ahora mismo.</p>
                     ) : (
                         <ul style={{ margin: 0, paddingLeft: 18 }}>
-                            <li><b>ID:</b> {caja.cierreCajaId}</li>
-                            <li><b>Estado:</b> {caja.estado}</li>
-                            <li><b>Apertura:</b> {caja.fechaApertura}</li>
-                            <li><b>Monto inicial:</b> {caja.montoInicial}</li>
+                            <li>
+                                <b>ID:</b> {caja.cierreCajaId}
+                            </li>
+                            <li>
+                                <b>Estado:</b> {caja.estado}
+                            </li>
+                            <li>
+                                <b>Apertura:</b> {caja.fechaApertura}
+                            </li>
+                            <li>
+                                <b>Monto inicial:</b> {caja.montoInicial}
+                            </li>
                         </ul>
                     )}
                 </section>
 
-                <section style={{ border: "1px solid #333", borderRadius: 10, padding: 12, display: "grid", gap: 10 }}>
+                <section
+                    style={{
+                        border: "1px solid #333",
+                        borderRadius: 10,
+                        padding: 12,
+                        display: "grid",
+                        gap: 10,
+                    }}
+                >
                     <h3>Abrir caja</h3>
 
                     <label style={{ display: "grid", gap: 6, maxWidth: 260 }}>
@@ -179,12 +199,28 @@ export default function CajaPage() {
                         />
                     </label>
 
-                    <button onClick={abrirCaja} disabled={loading || hayCajaAbierta} style={{ width: 180 }}>
-                        {hayCajaAbierta ? "Caja ya está abierta" : loading ? "Abriendo..." : "Abrir caja"}
+                    <button
+                        onClick={abrirCaja}
+                        disabled={loading || hayCajaAbierta}
+                        style={{ width: 180 }}
+                    >
+                        {hayCajaAbierta
+                            ? "Caja ya está abierta"
+                            : loading
+                                ? "Abriendo..."
+                                : "Abrir caja"}
                     </button>
                 </section>
 
-                <section style={{ border: "1px solid #333", borderRadius: 10, padding: 12, display: "grid", gap: 10 }}>
+                <section
+                    style={{
+                        border: "1px solid #333",
+                        borderRadius: 10,
+                        padding: 12,
+                        display: "grid",
+                        gap: 10,
+                    }}
+                >
                     <h3>Cerrar caja</h3>
 
                     <label style={{ display: "grid", gap: 6, maxWidth: 260 }}>
@@ -197,8 +233,16 @@ export default function CajaPage() {
                         />
                     </label>
 
-                    <button onClick={cerrarCaja} disabled={loading || !hayCajaAbierta} style={{ width: 180 }}>
-                        {!hayCajaAbierta ? "No hay caja abierta" : loading ? "Cerrando..." : "Cerrar caja"}
+                    <button
+                        onClick={cerrarCaja}
+                        disabled={loading || !hayCajaAbierta}
+                        style={{ width: 180 }}
+                    >
+                        {!hayCajaAbierta
+                            ? "No hay caja abierta"
+                            : loading
+                                ? "Cerrando..."
+                                : "Cerrar caja"}
                     </button>
                 </section>
             </main>

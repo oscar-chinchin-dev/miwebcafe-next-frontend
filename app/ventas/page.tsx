@@ -2,8 +2,9 @@
 
 import { useEffect, useMemo, useState } from "react";
 import RequireAuth from "../components/RequireAuth";
+import { api } from "../lib/api";
 
-const API_BASE = "https://localhost:7107";
+// const API_BASE = "https://localhost:7107"; // ya no se usa
 
 type ProductoDto = {
     productoId: number;
@@ -49,7 +50,7 @@ export default function VentasPage() {
         setError(null);
 
         try {
-            const res = await fetch(`${API_BASE}/api/productos`, {
+            const res = await fetch(api("/api/productos"), {
                 headers: { Authorization: `Bearer ${token()}` },
             });
 
@@ -95,7 +96,6 @@ export default function VentasPage() {
         }
 
         setCarrito((prev) => {
-            // si ya existe en el carrito, suma cantidad
             const idx = prev.findIndex((i) => i.productoId === p.productoId);
             if (idx >= 0) {
                 const copia = [...prev];
@@ -141,12 +141,14 @@ export default function VentasPage() {
         setError(null);
 
         try {
-            // tu API espera: { detalles: [{ productoId, cantidad }, ...] }
             const body = {
-                detalles: carrito.map((i) => ({ productoId: i.productoId, cantidad: i.cantidad })),
+                detalles: carrito.map((i) => ({
+                    productoId: i.productoId,
+                    cantidad: i.cantidad,
+                })),
             };
 
-            const res = await fetch(`${API_BASE}/api/ventas`, {
+            const res = await fetch(api("/api/ventas"), {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -165,7 +167,6 @@ export default function VentasPage() {
             setMsg(`Venta registrada ✅ ID: ${data.ventaId} — Total: ${data.total}`);
             setCarrito([]);
 
-            // recargar productos para reflejar stock actualizado
             await cargarProductos();
         } catch (e) {
             console.log(e);
@@ -187,7 +188,15 @@ export default function VentasPage() {
                 {error && <p style={{ color: "tomato" }}>{error}</p>}
                 {msg && <p style={{ color: "lightgreen" }}>{msg}</p>}
 
-                <section style={{ border: "1px solid #333", borderRadius: 10, padding: 12, display: "grid", gap: 12 }}>
+                <section
+                    style={{
+                        border: "1px solid #333",
+                        borderRadius: 10,
+                        padding: 12,
+                        display: "grid",
+                        gap: 12,
+                    }}
+                >
                     <h3>Productos</h3>
 
                     {loadingProductos ? (
@@ -195,7 +204,14 @@ export default function VentasPage() {
                     ) : productos.length === 0 ? (
                         <p>No hay productos activos.</p>
                     ) : (
-                        <div style={{ display: "flex", gap: 10, flexWrap: "wrap", alignItems: "end" }}>
+                        <div
+                            style={{
+                                display: "flex",
+                                gap: 10,
+                                flexWrap: "wrap",
+                                alignItems: "end",
+                            }}
+                        >
                             <label style={{ display: "grid", gap: 6, minWidth: 360 }}>
                                 Producto
                                 <select
@@ -205,7 +221,8 @@ export default function VentasPage() {
                                 >
                                     {productos.map((p) => (
                                         <option key={p.productoId} value={p.productoId}>
-                                            {p.nombre} — ${p.precio} — Stock: {p.stock} ({p.categoriaNombre})
+                                            {p.nombre} — ${p.precio} — Stock: {p.stock} (
+                                            {p.categoriaNombre})
                                         </option>
                                     ))}
                                 </select>
@@ -228,7 +245,15 @@ export default function VentasPage() {
                     )}
                 </section>
 
-                <section style={{ border: "1px solid #333", borderRadius: 10, padding: 12, display: "grid", gap: 10 }}>
+                <section
+                    style={{
+                        border: "1px solid #333",
+                        borderRadius: 10,
+                        padding: 12,
+                        display: "grid",
+                        gap: 10,
+                    }}
+                >
                     <h3>Carrito</h3>
 
                     {carrito.length === 0 ? (
@@ -239,8 +264,12 @@ export default function VentasPage() {
                                 <ul style={{ margin: 0, paddingLeft: 18 }}>
                                     {carrito.map((i) => (
                                         <li key={i.productoId} style={{ marginBottom: 8 }}>
-                                            <b>{i.nombre}</b> — {i.cantidad} x ${i.precio} = <b>${i.subtotal}</b>{" "}
-                                            <button onClick={() => quitarDelCarrito(i.productoId)} style={{ marginLeft: 10 }}>
+                                            <b>{i.nombre}</b> — {i.cantidad} x ${i.precio} ={" "}
+                                            <b>${i.subtotal}</b>{" "}
+                                            <button
+                                                onClick={() => quitarDelCarrito(i.productoId)}
+                                                style={{ marginLeft: 10 }}
+                                            >
                                                 Quitar
                                             </button>
                                         </li>
