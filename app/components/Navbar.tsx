@@ -43,6 +43,7 @@ export default function Navbar() {
 
         const adminOnly = [
             { href: "/ventas-admin", label: "Ventas (Admin)", roles: ["Admin"] },
+            { href: "/reportes", label: "Reportes", roles: ["Admin"] },
         ];
 
         const all = [...base, ...adminOnly];
