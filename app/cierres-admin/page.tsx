@@ -105,7 +105,7 @@ export default function CierresAdminPage() {
                         </table>
 
                         <p style={{ marginTop: 10, opacity: 0.75 }}>
-                            * El botón “Ver” apunta a <code>/cierres/[id]</code> (lo implementamos después si quieres el detalle).
+
                         </p>
                     </div>
                 )}
