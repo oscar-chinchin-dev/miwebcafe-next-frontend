@@ -19,14 +19,21 @@ After the trial expires, the live demo may stop working.
 
 ## Features
 
--JWT authentication
--Role-based access control (Admin / Cashier)
--Cash register management (open / close)
--Sales registration (cart + confirm sale)
--Sales reporting (daily and date range)
--Product and category management
--Role-based navigation
--Responsive layout
+- JWT authentication
+  
+- Role-based access control (Admin / Cashier)
+  
+- Cash register management (open / close)
+  
+- Sales registration (cart + confirm sale)
+  
+- Sales reporting (daily and date range)
+  
+- Product and category management
+  
+- Role-based navigation
+  
+- Responsive layout
 
 ---
 
