@@ -1,9 +1,8 @@
 # MiWebCafe Next Frontend
 
-Next.js frontend for the MiWebCafe system.
+Next.js frontend for the MiWebCafe point-of-sale system.
 
 This application consumes the MiWebCafe REST API and provides a modern UI alternative to the Angular client.
-
 ---
 
 ## Live Demo
@@ -12,26 +11,53 @@ Production deployment:
 
 https://miwebcafe-next-frontend.vercel.app
 
+Note:
+The backend API is hosted on an Azure free trial.
+After the trial expires, the live demo may stop working.
+
 ---
 
 ## Features
 
-- JWT authentication
-- Role-based access control (Admin / Cashier)
-- Cash register management (open / close)
-- Sales registration (cart + confirm sale)
-- Role-based navigation
-- Responsive layout
+-JWT authentication
+-Role-based access control (Admin / Cashier)
+-Cash register management (open / close)
+-Sales registration (cart + confirm sale)
+-Sales reporting (daily and date range)
+-Product and category management
+-Role-based navigation
+-Responsive layout
+
+---
+
+## Screenshots
+
+Login
+Cash Register
+Sales Panel
+Reports
+Product Management
 
 ---
 
 ## Tech Stack
 
-- Next.js (App Router)
-- TypeScript
-- Fetch API
-- JWT-based authentication
-- Vercel deployment
+Frontend:
+
+-Next.js (App Router)
+-TypeScript
+-Fetch API
+
+Authentication:
+-JWT-based authentication
+-Role-based authorization
+
+Deployment:
+-Vercel
+
+Backend:
+-.NET Web API
+-Microsoft SQL Server
 
 ---
 
