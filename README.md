@@ -39,11 +39,15 @@ After the trial expires, the live demo may stop working.
 
 ## Screenshots
 
-Login
-Cash Register
-Sales Panel
-Reports
-Product Management
+- Login
+  
+- Cash Register
+  
+- Sales Panel
+  
+- Reports
+  
+- Product Management
 
 ---
 
@@ -51,20 +55,26 @@ Product Management
 
 Frontend:
 
--Next.js (App Router)
--TypeScript
--Fetch API
+- Next.js (App Router)
 
-Authentication:
--JWT-based authentication
--Role-based authorization
+- TypeScript
+
+- Fetch API
+
+Authentication: 
+
+- JWT-based authentication
+  
+- Role-based authorization
 
 Deployment:
--Vercel
+
+- Vercel
 
 Backend:
--.NET Web API
--Microsoft SQL Server
+- .NET Web API
+
+- Microsoft SQL Server
 
 ---
 
