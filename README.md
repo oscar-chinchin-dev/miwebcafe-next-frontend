@@ -1,6 +1,6 @@
-# MiWebCafe Next Frontend
+# MiWebCafe Next Frontend 
 
-Next.js frontend for the MiWebCafe point-of-sale system.
+Next.js frontend for the MiWebCafe system. 
 
 This application consumes the MiWebCafe REST API and provides a modern UI alternative to the Angular client.
 ---
